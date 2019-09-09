@@ -1,6 +1,7 @@
 from flask import Flask
 from .extensions import db
 
+from app.commands import create_tables
 from app.VIEW.cliente import bp_cliente
 from app.VIEW.filme import bp_filme
 from app.VIEW.web import bp_web
@@ -14,5 +15,7 @@ def create_app(config_file='settings.py'):
     app.register_blueprint(bp_web)
 
     db.init_app(app)
+
+    app.cli.add_command(create_tables)
 
     return app
