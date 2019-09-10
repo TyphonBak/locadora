@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+<div>
+    <div class="col-6">
+        <form action="{{ url_for('Cliente BP.adiciona') }}" id="formNovoCliente">
+            <div class="form-group row">
+                <label for="nomeCliente" class="col-form-label">Nome:</label>
+                <div class="col">
+                    <input type="text" id="nomeCliente" name="nome" class="form-control" placeholder="Nome">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="emailCliente">Email:</label>
+                <div class="col">
+                    <input type="email" id="emailCliente" name="email" class="form-control" placeholder="example@email.com">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="telefoneCliente">Telefone:</label>
+                <div class="col">
+                    <input type="tel" id="telefoneCliente" name="telefone" class="form-control" placeholder="(XX) X-XXXX-XXXX">
+                </div>
+            </div>
+            <a href="" class="btn btn-primary col-4" role="submit">Salvar</a>
+            <button type="submit" id="salvaCliente">Save</button>
+            <a href="#formNovoCliente" class="btn btn-danger col-4" data-toggle="collapse" role="button" aria-controls="formNovoCliente">Cancelar</a>
+        </form>
+    </div>
+    <a href="#formNovoCliente" class="btn btn-primary float-right col-4" data-toggle="collapse" role="button" aria-controls="formNovoCliente">Novo cliente</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table" id="tabelaClientes">
+        <thead class="thead-dark">
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+        </thead>
+        <tbody>
+            {% if context['clientes'] %}
+            {% for cliente in context['clientes'] %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.telefone }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-info">
+                Nenhum cliente cadastrado até o momento.
+            </div>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
