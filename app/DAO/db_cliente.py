@@ -20,6 +20,8 @@ def adiciona(cliente):
         novo = Cliente.query.order_by(Cliente.id.desc()).first()
         novo.__dict__.pop('_sa_instance_state')
         return novo.__dict__
+    except TypeError as error:
+        return str(error)
     except Exception as error:
         db.session.rollback()    
         return str(error.orig)
