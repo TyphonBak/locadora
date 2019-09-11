@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for
 from app.VIEW.filme import lista as lista_filmes
 from app.VIEW.cliente import lista as lista_clientes
 
-bp_web = Blueprint('BP Web', __name__)
+bp_web = Blueprint('Web BP', __name__)
 
 @bp_web.route('/')
 def index():

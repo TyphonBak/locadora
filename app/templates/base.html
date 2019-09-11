@@ -5,11 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/locadora.css') }}">
 
     <title>Title</title>
 </head>
 <body>
-    <div class="container">
+    <!--MENU-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ url_for('Web BP.index') }}">
+                <img src="{{ url_for('static', filename='img/movie-tickets.png') }}" width="30" height="30" alt="">
+            </a>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('Web BP.index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('Web BP.clientes') }}">Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('Web BP.filmes') }}">Filmes</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    <!--TITULO-->
+    <div class="">
+        <h1 class="text-center titulo-pagina">Locadora</h1>
+    </div>
+    <!--CONTEUDO-->
+    <div class="container conteudo-principal">
         {% block conteudo %}
         {% endblock %}
     </div>

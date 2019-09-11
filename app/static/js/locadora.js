@@ -1,5 +1,3 @@
-console.log('Locadora JS carregado.');
-console.log($('#formNovoCliente').prop('action'));
 /*{email: "cezar_andrade_10@hotmail.com", id: 11, nome: "Castlevania", telefone: "3774-8342"} */
 
 function montaCliente (dados){

@@ -1,36 +1,37 @@
 {% extends 'base.html' %}
 {% block conteudo %}
 
-<div>
-    <div class="col-6">
-        <form action="{{ url_for('Cliente BP.adiciona') }}" id="formNovoCliente">
-            <div class="form-group row">
-                <label for="nomeCliente" class="col-form-label">Nome:</label>
-                <div class="col">
-                    <input type="text" id="nomeCliente" name="nome" class="form-control" placeholder="Nome">
-                </div>
+<div class="d-flex justify-content-center">
+    <form action="{{ url_for('Cliente BP.adiciona') }}" id="formNovoCliente" class="form-horizontal col-sm-12 col-md-8 col-lg-6 collapse">
+        <div class="form-group row">
+            <label for="nomeCliente" class="col-form-label col-3">Nome:</label>
+            <div class="col-9">
+                <input type="text" id="nomeCliente" name="nome" class="form-control" placeholder="Nome">
             </div>
-            <div class="form-group row">
-                <label for="emailCliente">Email:</label>
-                <div class="col">
-                    <input type="email" id="emailCliente" name="email" class="form-control" placeholder="example@email.com">
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="emailCliente" class="col-form-label col-3">Email:</label>
+            <div class="col-9">
+                <input type="email" id="emailCliente" name="email" class="form-control" placeholder="example@email.com">
             </div>
-            <div class="form-group row">
-                <label for="telefoneCliente">Telefone:</label>
-                <div class="col">
-                    <input type="tel" id="telefoneCliente" name="telefone" class="form-control" placeholder="(XX) X-XXXX-XXXX">
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="telefoneCliente" class="col-form-label col-3">Telefone:</label>
+            <div class="col-9">
+                <input type="tel" id="telefoneCliente" name="telefone" class="form-control" placeholder="(XX) X-XXXX-XXXX">
             </div>
-            <a href="" class="btn btn-primary col-4" role="submit">Salvar</a>
-            <button type="submit" id="salvaCliente">Save</button>
+        </div>
+        <div class="d-flex justify-content-around">
+            <button class="btn btn-primary col-4" type="submit" id="salvaCliente">Save</button>
             <a href="#formNovoCliente" class="btn btn-danger col-4" data-toggle="collapse" role="button" aria-controls="formNovoCliente">Cancelar</a>
-        </form>
-    </div>
-    <a href="#formNovoCliente" class="btn btn-primary float-right col-4" data-toggle="collapse" role="button" aria-controls="formNovoCliente">Novo cliente</a>
+        </div>
+        <hr>
+    </form>
 </div>
 
-<div class="table-responsive">
+<a href="#formNovoCliente" class="btn btn-primary float-right col-md-4 col-sm-8" data-toggle="collapse" role="button" aria-controls="formNovoCliente" id="botaoNovoCliente">Novo cliente</a>
+
+<div class="table-responsive table-fixed">
     <table class="table" id="tabelaClientes">
         <thead class="thead-dark">
             <th>ID</th>
@@ -49,12 +50,12 @@
             </tr>
             {% endfor %}
         </tbody>
-        {% else %}
-        <div class="alert alert-info">
-            Nenhum cliente cadastrado até o momento.
-        </div>
-        {% endif %}
     </table>
+    {% else %}
+    <div class="alert alert-info">
+        Nenhum cliente cadastrado até o momento.
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

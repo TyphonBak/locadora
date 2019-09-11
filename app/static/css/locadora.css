@@ -1,0 +1,25 @@
+body{
+    background-color: lightgray;
+}
+.titulo-pagina {
+    color: aliceblue;
+    height: 200px;
+    position: relative;
+    background-image: url('../img/movie-night.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+.table-fixed {
+    overflow-y: auto;
+    height: 600px;
+}
+.table-fixed thead th {
+    position: sticky;
+    top: 0;
+}
+#botaoNovoCliente {
+    margin: 5px 0 10px 0;
+}
+#formNovoCliente {
+    margin-top: 1rem;
+}
