@@ -31,6 +31,9 @@
 
 <a href="#formNovoCliente" class="btn btn-primary float-right col-md-4 col-sm-8" data-toggle="collapse" role="button" aria-controls="formNovoCliente" id="botaoNovoCliente">Novo cliente</a>
 
+<div id="areaInfo">
+</div>
+
 <div class="table-responsive table-fixed">
     <table class="table" id="tabelaClientes">
         <thead class="thead-dark">
@@ -38,6 +41,7 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Telefone</th>
+            <th>Remover</th>
         </thead>
         <tbody>
             {% if context['clientes'] %}
@@ -47,15 +51,17 @@
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.email }}</td>
                 <td>{{ cliente.telefone }}</td>
+                <td><a href="{{ url_for('Cliente BP.deleta', id=cliente.id) }}" class="botaoRemover">Remover</a></td>
             </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
+    {% if not context['clientes'] %}
+    <div id="infoSemCliente" class="alert alert-info">
+        Nenhum cliente cadastrado até o momento.
+    </div>
+    {% endif %}
 </div>
-{% else %}
-<div class="alert alert-info">
-    Nenhum cliente cadastrado até o momento.
-</div>
-{% endif %}
 
 {% endblock %}

@@ -1,55 +1,92 @@
-/*{email: "cezar_andrade_10@hotmail.com", id: 11, nome: "Castlevania", telefone: "3774-8342"} */
+function popConfirma(cliente){
+    return confirm(`Você realmente gostaria de REMOVER o ${cliente.nome} ?`);
+}
 
-function montaCliente (dados){
+function criaCliente(listaValues) {
     let cliente = {}
-    dados.forEach(element => {
-        let chave = element.name
-        cliente[chave] = element.value
-    });
+    cliente.id = listaValues[0]
+    cliente.nome = listaValues[1]
+    cliente.email = listaValues[2]
+
     return cliente
 }
 
-function montaTd(dado) {
-    var td = document.createElement('td');
-    td.textContent = dado;
-    return td
+function setAttributes(el, attrs) {
+    for(var key in attrs) {
+      el.setAttribute(key, attrs[key]);
+    }
 }
 
-function montaTr(cliente){
+function criaBotaoDismiss () {
+    var botaoDismiss = document.createElement('button');
+    var span = document.createElement('span');
+    
+    botaoDismiss.classList.add('close');
+    setAttributes(botaoDismiss, {'type':'button', 'data-dismiss':'alert', 'aria-label':'Close'});
 
-    var tr = document.createElement('tr');
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = '&times;';
 
-    tr.appendChild(montaTd(cliente.id));
-    tr.appendChild(montaTd(cliente.nome));
-    tr.appendChild(montaTd(cliente.email));
-    tr.appendChild(montaTd(cliente.telefone));
+    botaoDismiss.append(span);
 
-    return tr
+    return botaoDismiss;    
 }
 
-function adicionaClienteTabela(cliente) {
+function criaAlerta(destaque=null, message){
+    var alertaDiv = document.createElement('div');
+    var botaoDismiss = criaBotaoDismiss();
 
-    var clienteTr = montaTr(cliente);
+    if (destaque != null) {
+        var textoDestaque = document.createElement('strong');
+    
+        textoDestaque.textContent = `${destaque} `;
+    }else {
+        textoDestaque = '';
+    }
 
-    $('#tabelaClientes').append(clienteTr);
+    alertaDiv.classList.add('alert', 'alert-warning', 'alert-dismissible', 'fade', 'show', 'd-block');
+    alertaDiv.setAttribute('role', 'alert');
+    alertaDiv.append(textoDestaque);
+    alertaDiv.append(`${message}`);
+    alertaDiv.append(botaoDismiss);
+
+    return alertaDiv;
 }
 
-$('#formNovoCliente').on("submit", (event) => {
-    event.preventDefault();
-    let urlAction = $('#formNovoCliente').prop('action');
+function adicionarTempAlerta(alerta) {
+    $('#areaInfo').append(alerta);
 
-    let cliente = montaCliente($('form').serializeArray());
+    setTimeout(function(){
+        $(alerta).alert('close');
+        $(alerta).alert('dispose');
+    }, 5000);
 
-    $.post({
-        url:urlAction, 
-        dataType:'json', 
-        data:JSON.stringify(cliente), 
-        contentType: "application/json",
-        error: e => {
-            console.log(e.responseJSON)
+}
+
+$('#tabelaClientes').on('click', '.botaoRemover', function(clicado) {
+    urlRemover = $(clicado.target).attr("href");
+
+    var listCliente = [];
+    $(clicado.target).parent().parent().children('td').text(function(index, campo){
+        listCliente.push(campo);
+    });
+    var cliente = criaCliente(listCliente);
+    if (!popConfirma(cliente)){
+        return false;
+    }
+    $.ajax({
+        url: urlRemover,
+        type: 'DELETE',
+        success: function(){
+            var alerta = criaAlerta(`${listCliente[1]} Removido!`, `O cliente de email ${listCliente[2]} foi removido.`);
+            adicionarTempAlerta(alerta);
+            $(clicado.target).parent().parent().remove()
+        },
+        error: function(){
+            var alerta = criaAlerta('Há algo errado com o servidor. Tente novamente.');
+            adicionarTempAlerta(alerta);
         }
-    }, result => {
-        adicionaClienteTabela(result);
     });
 
+    return false
 });
