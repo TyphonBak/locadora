@@ -17,9 +17,19 @@ body{
     position: sticky;
     top: 0;
 }
-#botaoNovoCliente {
-    margin: 5px 0 10px 0;
+#botaoNovoCliente, #botaoNovoFilme {
+    margin: 5px 15px 10px 0;
 }
-#formNovoCliente {
+#formNovoCliente, #formNovoFilme {
     margin-top: 1rem;
+}
+/* FILME CSS  */
+#infoSemFilme {
+    margin-top: 50px;
+}
+#listaFilmes {
+    list-style: none;
+}
+.card-margin {
+    margin-bottom: 1rem;
 }

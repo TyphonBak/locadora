@@ -10,13 +10,15 @@ function criaBotaoRemover(id){
     return botao
 }
 
-function montaCliente (dados){
-    let cliente = {}
-    dados.forEach(element => {
-        let chave = element.name
-        cliente[chave] = element.value
-    });
-    return cliente
+function criaBotaoAlterar(id){
+    let botao = document.createElement('a');
+
+    botao.setAttribute('data-id', id);
+    botao.setAttribute('data-toggle', 'modal')
+    botao.setAttribute('data-target', '#modalAlterar')
+    botao.text = 'Alterar'
+
+    return botao
 }
 
 function montaTd(dado) {
@@ -33,6 +35,7 @@ function montaTr(cliente){
     tr.appendChild(montaTd(cliente.nome));
     tr.appendChild(montaTd(cliente.email));
     tr.appendChild(montaTd(cliente.telefone));
+    tr.appendChild(montaTd(criaBotaoAlterar(cliente.id)));
     tr.appendChild(montaTd(criaBotaoRemover(cliente.id)));
 
     return tr
@@ -49,7 +52,7 @@ $('#formNovoCliente').bind("submit", (event) => {
     event.preventDefault();
     let urlAction = $('#formNovoCliente').prop('action');
 
-    let cliente = montaCliente($('form').serializeArray());
+    let cliente = montaObjetoDeSerializeArray($('#formNovoCliente').serializeArray());
 
     $.post({
         url:urlAction, 

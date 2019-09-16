@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/clienteLocadora.js') }}"></script>
+<script src="{{ url_for('static', filename='js/clienteFormHelper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/clienteModalHelper.js') }}"></script>
+{% endblock %}
 {% block conteudo %}
 
 <div class="d-flex justify-content-center">
@@ -22,14 +27,18 @@
             </div>
         </div>
         <div class="d-flex justify-content-around">
-            <button class="btn btn-primary col-4" type="submit" id="salvaCliente">Save</button>
+            <button class="btn btn-primary col-4" type="submit" id="salvaCliente">Salvar</button>
             <a href="#formNovoCliente" class="btn btn-danger col-4" data-toggle="collapse" role="button" aria-controls="formNovoCliente">Cancelar</a>
         </div>
         <hr>
     </form>
 </div>
 
-<a href="#formNovoCliente" class="btn btn-primary float-right col-md-4 col-sm-8" data-toggle="collapse" role="button" aria-controls="formNovoCliente" id="botaoNovoCliente">Novo cliente</a>
+<div class="row justify-content-end">
+    <a href="#formNovoCliente" class="btn btn-primary col-md-4 col-sm-8" data-toggle="collapse" role="button" aria-controls="formNovoCliente" id="botaoNovoCliente">
+        Novo Cliente
+    </a>
+</div>
 
 <div id="areaInfo">
 </div>
@@ -41,16 +50,22 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Telefone</th>
+            <th>Alterar</th>
             <th>Remover</th>
         </thead>
         <tbody>
             {% if context['clientes'] %}
             {% for cliente in context['clientes'] %}
             <tr>
-                <td>{{ cliente.id }}</td>
-                <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.email }}</td>
-                <td>{{ cliente.telefone }}</td>
+                <td name="id">{{ cliente.id }}</td>
+                <td name="nome">{{ cliente.nome }}</td>
+                <td name="email">{{ cliente.email }}</td>
+                <td name="telefone">{{ cliente.telefone }}</td>
+                <td>
+                    <a class="botao-tabela" data-id="{{ cliente.id }}" data-toggle="modal" data-target="#modalAlterar">
+                        Alterar
+                    </a>
+                </td>
                 <td><a href="{{ url_for('Cliente BP.deleta', id=cliente.id) }}" class="botaoRemover">Remover</a></td>
             </tr>
             {% endfor %}
@@ -62,6 +77,46 @@
         Nenhum cliente cadastrado até o momento.
     </div>
     {% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAlterar" tabindex="-1" role="dialog" aria-labelledby="modalAlterarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAlterarLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="formAlterarCliente" action="">
+                <div class="form-group row">
+                    <label for="nomeClienteAlterar" class="col-form-label col-3">Nome:</label>
+                    <div class="col-9">
+                        <input type="text" id="nomeClienteAlterar" name="nome" class="form-control" placeholder="Nome">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="emailClienteAlterar" class="col-form-label col-3">Email:</label>
+                    <div class="col-9">
+                        <input type="email" id="emailClienteAlterar" name="email" class="form-control" placeholder="example@email.com">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="telefoneClienteAlterar" class="col-form-label col-3">Telefone:</label>
+                    <div class="col-9">
+                        <input type="tel" id="telefoneClienteAlterar" name="telefone" class="form-control" placeholder="(XX) X-XXXX-XXXX">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="botaoSalvarAlteracoes">Save changes</button>
+        </div>
+      </div>
+    </div>
 </div>
 
 {% endblock %}
