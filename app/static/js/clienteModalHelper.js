@@ -25,7 +25,7 @@ function alteraClienteAPI (cliente) {
 }
 
 $('#botaoSalvarAlteracoes').on('click', () => {
-    let cliente = montaCliente($('#formAlterarCliente').serializeArray());
+    let cliente = montaObjetoDeSerializeArray($('#formAlterarCliente').serializeArray());
     console.log(cliente);
     alteraClienteAPI(cliente);
 })

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/filmeLocadora.js') }}"></script>
 <script src="{{ url_for('static', filename='js/filmeFormHelper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/filmeListaHelper.js') }}"></script>
 {% endblock %}
@@ -63,31 +62,41 @@
 <div id="areaInfo">
 </div>
 
-<div id="listaFilmes" class="card-deck">
-    {% if context['filmes'] %}
-    {% for filme in context['filmes'] %}
-    <div class="col-xs-12 col-md-4 col-lg-3 card-margin">
-        <div class="card">
-            <img src="{{ url_for('static', filename='img/film.png') }}" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-                <div class="float-right">
-                    <a href="{{ url_for('Filme BP.deleta', id=filme.id) }}" class="d-block botaoRemoverFilme">
-                        <i class="material-icons">delete</i>
-                    </a>
-                    <a class="d-block botaoEditarFilme">
-                        <i class="material-icons">edit</i>
-                    </a>
+<div id="listaFilmes">
+    <div class="card-columns">
+        {% if context['filmes'] %}
+        {% for filme in context['filmes'] %}
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/film.png') }}" class="card-img-top img-fluid" alt="...">
+                <div class="card-body">
+                    <div class="float-right">
+                        <a href="{{ url_for('Filme BP.deleta', id=filme.id) }}" class="d-block botaoRemoverFilme">
+                            <i class="material-icons">delete</i>
+                        </a>
+                        <div>
+                            <a class="d-block botaoAlterarFilme" data-id="{{ filme.id }}" data-toggle="modal" href="#modalAlterarFilme">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a href="#infoAdicional{{ filme.id }}" data-toggle="collapse" class="badge badge-info">Mais</a>
+                        </div>
+                    </div>
+                    <span name="id" class="d-none">{{ filme.id }}</span>
+                    <h5 class="card-title" name="titulo">{{ filme.titulo }}</h5>
+                    <p class="card-text">
+                        <p><span name="genero">{{ filme.genero }}</span> - <span name="ano">{{ filme.ano }}</span></p>
+                        <div id="infoAdicional{{ filme.id }}" class="collapse">
+                            <p>Diretor: <span name="diretor">{{ filme.diretor }}</span></p>
+                            <p>Sinopse: <span name="sinopse">{{ filme.sinopse }}</span></p>
+                            <p>$<span name="preco">{{ filme.preco }}</span>- Und:<span name="estoque"> {{ filme.estoque }}</span></p>
+    
+                        </div>
+                    </p>
                 </div>
-                <h5 class="card-title" name="titulo">{{ filme.titulo }}</h5>
-                <p class="card-text">
-                    <p name="genero">{{ filme.genero }}</p>
-                    <p name="ano">{{ filme.ano }}</p>
-                </p>
             </div>
-        </div>
+        {% endfor %}
+        {% endif %}        
+
     </div>
-    {% endfor %}
-    {% endif %}        
 </div>
 {% if not context.get('filmes') %}
 <div id="infoSemFilme" class="alert alert-info">
@@ -106,50 +115,51 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" id="formAlteraFilme" class="">
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <label for="campoTitulo">Titulo:</label>
-                                <input type="text" class="form-control" id="campoTitulo" placeholder="Titulo">
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="campoDiretor">Diretor:</label>
-                                <input type="text" class="form-control" id="campoDiretor" placeholder="Diretor">
-                            </div>
+                <form id="formAlteraFilme" action="">
+                    <span name="id" class="d-none" id="campoIdAlterar"></span>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="campoTituloAlterar">Titulo:</label>
+                            <input type="text" class="form-control" name="titulo" id="campoTituloAlterar" placeholder="Titulo">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-4">
-                                <label for="campoAno">Ano:</label>
-                                <input type="text" class="form-control" id="campoAno" placeholder="Ano">
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="campoGenero">Genero:</label>
-                                <input type="text" class="form-control" id="campoGenero" placeholder="Genero">
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="campoClassificacao">Classificação:</label>
-                                <input type="text" class="form-control" id="campoClassificacao" placeholder="Classificação">
-                            </div>
+                        <div class="form-group col-6">
+                            <label for="campoDiretorAlterar">Diretor:</label>
+                            <input type="text" class="form-control" name="diretor" id="campoDiretorAlterar" placeholder="Diretor">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <label for="campoPreco">Preço:</label>
-                                <input type="text" class="form-control" id="campoPreco" placeholder="Preço">
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="campoEstoque">Estoque:</label>
-                                <input type="text" class="form-control" id="campoEstoque" placeholder="Estoque">
-                            </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="campoAnoAlterar">Ano:</label>
+                            <input type="text" class="form-control" name="ano" id="campoAnoAlterar" placeholder="Ano">
                         </div>
-                        <div class="form-group">
-                            <label for="campoSinopse">Sinopse:</label>
-                            <textarea class="form-control" id="campoSinopse" rows="3" placeholder="Sinopse..."></textarea>
+                        <div class="form-group col-4">
+                            <label for="campoGeneroAlterar">Genero:</label>
+                            <input type="text" class="form-control" name="genero" id="campoGeneroAlterar" placeholder="Genero">
                         </div>
+                        <div class="form-group col-4">
+                            <label for="campoClassificacaoAlterar">Classificação:</label>
+                            <input type="text" class="form-control" name="classificacao" id="campoClassificacaoAlterar" placeholder="Classificação">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="campoPrecoAlterar">Preço:</label>
+                            <input type="text" class="form-control" name="preco" id="campoPrecoAlterar" placeholder="Preço">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="campoEstoqueAlterar">Estoque:</label>
+                            <input type="text" class="form-control" name="estoque" id="campoEstoqueAlterar" placeholder="Estoque">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="campoSinopseAlterar">Sinopse:</label>
+                        <textarea class="form-control" name="sinopse" id="campoSinopseAlterar" rows="3" placeholder="Sinopse..."></textarea>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="botaoSalvarAlteracoes">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="botaoSalvarAlteracoes">Salvar</button>
             </div>
         </div>
     </div>

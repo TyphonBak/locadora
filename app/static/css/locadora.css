@@ -18,7 +18,7 @@ body{
     top: 0;
 }
 #botaoNovoCliente, #botaoNovoFilme {
-    margin: 5px 15px 10px 0;
+    margin: 5px 15px 10px 15px;
 }
 #formNovoCliente, #formNovoFilme {
     margin-top: 1rem;
@@ -27,9 +27,21 @@ body{
 #infoSemFilme {
     margin-top: 50px;
 }
-#listaFilmes {
-    list-style: none;
-}
 .card-margin {
     margin-bottom: 1rem;
+}
+@media (max-width: 575.98) {
+    #listaFilmes .card-columns {
+        column-count: 1;
+    }
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+    #listaFilmes .card-columns {
+        column-count: 3;
+    }
+}
+@media (min-width: 768px){
+    #listaFilmes .card-columns {
+        column-count: 4;
+    }
 }

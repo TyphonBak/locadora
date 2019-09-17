@@ -1,3 +1,24 @@
+function setAttributes(el, attrs) {
+    for(var key in attrs) {
+      el.setAttribute(key, attrs[key]);
+    }
+}
+
+function criaBotaoDismiss () {
+    var botaoDismiss = document.createElement('button');
+    var span = document.createElement('span');
+    
+    botaoDismiss.classList.add('close');
+    setAttributes(botaoDismiss, {'type':'button', 'data-dismiss':'alert', 'aria-label':'Close'});
+
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = '&times;';
+
+    botaoDismiss.append(span);
+
+    return botaoDismiss;    
+}
+
 function criaAlerta(destaque=null, message){
     var alertaDiv = document.createElement('div');
     var botaoDismiss = criaBotaoDismiss();
